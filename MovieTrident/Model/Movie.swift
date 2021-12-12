@@ -10,7 +10,8 @@ import Foundation
 // MARK: - Search
 
 protocol Search: Decodable {
-    var result:       [MovieSearchImpl] { get set }
+    associatedtype Result = MovieSearch
+    var result:       [Result] { get set }
     var totalResults: String { get set }
 }
 
@@ -27,6 +28,7 @@ extension SearchImpl {
 }
 
 // MARK: - MovieSeach
+
 protocol MovieSearch: Identifiable, Decodable {
     var title:      String { get set }
     var year:       String { get set }

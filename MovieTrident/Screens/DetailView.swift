@@ -96,25 +96,3 @@ struct DetailView_Previews: PreviewProvider {
         DetailView(isShowing: .constant(true))
     }
 }
-
-struct CircularActionButton: View {
-    
-    let imageName: String
-    let isPrimary: Bool
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            Image(systemName: imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 20, height: 20)
-                .padding()
-                .foregroundColor(isPrimary ? .white : Brand.Colour.primary)
-                .background(
-                    Circle()
-                        .foregroundColor(isPrimary ? Brand.Colour.primary : .white)
-                )
-        }
-    }
-}

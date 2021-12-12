@@ -15,6 +15,8 @@
 		122EAC222764BD2300E33D3A /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC212764BD2300E33D3A /* Brand.swift */; };
 		122EAC262764BED600E33D3A /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC252764BED600E33D3A /* Movie.swift */; };
 		122EAC2A2764BF9000E33D3A /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC292764BF9000E33D3A /* EntryViewModel.swift */; };
+		122EAC2E27661C4200E33D3A /* CircularActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC2D27661C4200E33D3A /* CircularActionButton.swift */; };
+		122EAC32276622AB00E33D3A /* MovieListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC31276622AB00E33D3A /* MovieListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		122EAC252764BED600E33D3A /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		122EAC292764BF9000E33D3A /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
 		122EAC2B2764E7DF00E33D3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		122EAC2D27661C4200E33D3A /* CircularActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularActionButton.swift; sourceTree = "<group>"; };
+		122EAC31276622AB00E33D3A /* MovieListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,7 @@
 		1218568027629B760068A206 /* MovieTrident */ = {
 			isa = PBXGroup;
 			children = (
+				122EAC2C27661C2C00E33D3A /* Reusable Components */,
 				122EAC2B2764E7DF00E33D3A /* Info.plist */,
 				122EAC242764BEC300E33D3A /* Model */,
 				122EAC232764BE8B00E33D3A /* Main */,
@@ -119,6 +124,31 @@
 				122EAC292764BF9000E33D3A /* EntryViewModel.swift */,
 			);
 			path = EntryView;
+			sourceTree = "<group>";
+		};
+		122EAC2C27661C2C00E33D3A /* Reusable Components */ = {
+			isa = PBXGroup;
+			children = (
+				122EAC302766229C00E33D3A /* Cells */,
+				122EAC2F2766229000E33D3A /* Buttons */,
+			);
+			path = "Reusable Components";
+			sourceTree = "<group>";
+		};
+		122EAC2F2766229000E33D3A /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				122EAC2D27661C4200E33D3A /* CircularActionButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		122EAC302766229C00E33D3A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				122EAC31276622AB00E33D3A /* MovieListCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,6 +223,8 @@
 			files = (
 				1218568427629B760068A206 /* EntryView.swift in Sources */,
 				122EAC222764BD2300E33D3A /* Brand.swift in Sources */,
+				122EAC32276622AB00E33D3A /* MovieListCell.swift in Sources */,
+				122EAC2E27661C4200E33D3A /* CircularActionButton.swift in Sources */,
 				122009472763F0A500C1E4F5 /* DetailView.swift in Sources */,
 				122EAC2A2764BF9000E33D3A /* EntryViewModel.swift in Sources */,
 				1218568227629B760068A206 /* MovieTridentApp.swift in Sources */,

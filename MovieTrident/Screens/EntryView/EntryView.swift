@@ -10,24 +10,26 @@ import SwiftUI
 struct EntryView: View {
     
     @StateObject var vm = EntryVieModel()
+    @FocusState private var isFocused: Bool
     let placeHolderText: String = "search"
     
     var body: some View {
         ZStack {
-            // empty state
-            VStack {
-                Spacer()
-                Image(systemName: "list.and.film")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 200, height: 200)
-                
-                Text("You haven't searched for any movies just yet")
-                    .bold()
-                    .font(.largeTitle)
+            if vm.movies.isEmpty && !isFocused {
+                VStack {
+                    Spacer()
+                    Image(systemName: "list.and.film")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 200, height: 200)
+                    
+                    Text("You haven't searched for any movies just yet")
+                        .bold()
+                        .font(.largeTitle)
+                }
+                .foregroundColor(Brand.Colour.primary)
+                .padding(32)
             }
-            .foregroundColor(Brand.Colour.primary)
-            .padding(32)
             
             VStack {
                 HStack {
@@ -37,13 +39,21 @@ struct EntryView: View {
                         .multilineTextAlignment(.leading)
                     Spacer()
                 }
+                .blur(radius: isFocused ? 20 : 0)
 
                 HStack(spacing: 16) {
-                    TextField("Enter a keyword here ", text: $vm.text)
+                    TextField("Enter a keyword here ", text: $vm.text ) { isEditing in
+                        if isEditing {
+                            isFocused = true
+                        } else {
+                            isFocused = false
+                        }
+                    }
                         .padding()
                         .frame(height: 50)
                         .background(Color(.systemGray6))
                         .clipShape(Capsule())
+                        .focused($isFocused)
                         .onSubmit {
                             Task {
                                 do {
@@ -54,10 +64,23 @@ struct EntryView: View {
                             }
                         }
                     
-                    CircularActionButton(imageName: "slider.horizontal.3", isPrimary: true) { }
+                    CircularActionButton(imageName: isFocused ? "xmark" : "slider.horizontal.3", isPrimary: true) {
+                        isFocused = false
+                        vm.text.removeAll()
+                        vm.movies.removeAll()
+                    }
                 }
                 
                 Spacer()
+                
+                // here we will ad the list
+                List {
+                    ForEach(vm.movies) { _ in
+                        MovieListCell()
+                            .onTapGesture(perform: vm.showDetailView)
+                    }
+                }
+                .listStyle(.plain)
             }
             .padding(32)
             
