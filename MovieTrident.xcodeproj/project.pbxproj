@@ -12,6 +12,9 @@
 		1218568627629B7B0068A206 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1218568527629B7B0068A206 /* Assets.xcassets */; };
 		1218568927629B7B0068A206 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1218568827629B7B0068A206 /* Preview Assets.xcassets */; };
 		122009472763F0A500C1E4F5 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122009462763F0A500C1E4F5 /* DetailView.swift */; };
+		122EAC222764BD2300E33D3A /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC212764BD2300E33D3A /* Brand.swift */; };
+		122EAC262764BED600E33D3A /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC252764BED600E33D3A /* Movie.swift */; };
+		122EAC2A2764BF9000E33D3A /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC292764BF9000E33D3A /* EntryViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +24,10 @@
 		1218568527629B7B0068A206 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1218568827629B7B0068A206 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		122009462763F0A500C1E4F5 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		122EAC212764BD2300E33D3A /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
+		122EAC252764BED600E33D3A /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		122EAC292764BF9000E33D3A /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
+		122EAC2B2764E7DF00E33D3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,9 +60,11 @@
 		1218568027629B760068A206 /* MovieTrident */ = {
 			isa = PBXGroup;
 			children = (
-				1218568127629B760068A206 /* MovieTridentApp.swift */,
-				122009462763F0A500C1E4F5 /* DetailView.swift */,
-				1218568327629B760068A206 /* EntryView.swift */,
+				122EAC2B2764E7DF00E33D3A /* Info.plist */,
+				122EAC242764BEC300E33D3A /* Model */,
+				122EAC232764BE8B00E33D3A /* Main */,
+				122EAC202764BD0800E33D3A /* Constants */,
+				122EAC1F2764BCF500E33D3A /* Screens */,
 				1218568527629B7B0068A206 /* Assets.xcassets */,
 				1218568727629B7B0068A206 /* Preview Content */,
 			);
@@ -68,6 +77,48 @@
 				1218568827629B7B0068A206 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		122EAC1F2764BCF500E33D3A /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				122EAC282764BF8000E33D3A /* EntryView */,
+				122009462763F0A500C1E4F5 /* DetailView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		122EAC202764BD0800E33D3A /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				122EAC212764BD2300E33D3A /* Brand.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		122EAC232764BE8B00E33D3A /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				1218568127629B760068A206 /* MovieTridentApp.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		122EAC242764BEC300E33D3A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				122EAC252764BED600E33D3A /* Movie.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		122EAC282764BF8000E33D3A /* EntryView */ = {
+			isa = PBXGroup;
+			children = (
+				1218568327629B760068A206 /* EntryView.swift */,
+				122EAC292764BF9000E33D3A /* EntryViewModel.swift */,
+			);
+			path = EntryView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,8 +192,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1218568427629B760068A206 /* EntryView.swift in Sources */,
+				122EAC222764BD2300E33D3A /* Brand.swift in Sources */,
 				122009472763F0A500C1E4F5 /* DetailView.swift in Sources */,
+				122EAC2A2764BF9000E33D3A /* EntryViewModel.swift in Sources */,
 				1218568227629B760068A206 /* MovieTridentApp.swift in Sources */,
+				122EAC262764BED600E33D3A /* Movie.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +330,7 @@
 				DEVELOPMENT_TEAM = H67HBX73UR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MovieTrident/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -305,6 +360,7 @@
 				DEVELOPMENT_TEAM = H67HBX73UR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MovieTrident/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
