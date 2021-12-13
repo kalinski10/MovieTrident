@@ -40,15 +40,21 @@ struct EntryView: View {
                     Spacer()
                 }
                 .blur(radius: isFocused ? 20 : 0)
-
-                HStack(spacing: 16) {
-                    TextField("Enter a keyword here ", text: $vm.text ) { isEditing in
-                        if isEditing {
-                            isFocused = true
-                        } else {
-                            isFocused = false
+                
+                VStack {
+                    HStack(spacing: 16) {
+                        TextField("Enter a keyword here ", text: $vm.text ) { isEditing in
+                            if isEditing {
+                                withAnimation {
+                                    isFocused = true
+                                }
+                                
+                            } else {
+                                withAnimation {
+                                    isFocused = false
+                                }
+                            }
                         }
-                    }
                         .padding()
                         .frame(height: 50)
                         .background(Color(.systemGray6))
@@ -56,31 +62,56 @@ struct EntryView: View {
                         .focused($isFocused)
                         .onSubmit {
                             Task {
-                                do {
-                                    let _ = try await vm.fetchMovies()
-                                } catch {
-                                    print(error)
-                                }
+                                await vm.searchMovies()
                             }
                         }
+                        
+                        CircularActionButton(imageName: isFocused || vm.movies.count != 0 || !vm.text.isEmpty ? "xmark" : "slider.horizontal.3", isPrimary: true) {
+                            withAnimation {
+                                isFocused = false
+                            }
+                            vm.text.removeAll()
+                            vm.movies.removeAll()
+                        }
+                        
+                    }
                     
-                    CircularActionButton(imageName: isFocused ? "xmark" : "slider.horizontal.3", isPrimary: true) {
-                        isFocused = false
-                        vm.text.removeAll()
-                        vm.movies.removeAll()
+                    if isFocused {
+                        List {
+                            ForEach(0..<5) { _ in
+                                Text("Thor Ragnarok")
+                                    .onTapGesture {
+                                        vm.text = "Thor Ragnarok"
+                                        
+                                        Task {
+                                            await vm.searchMovies()
+                                        }
+                                        
+                                        withAnimation {
+                                            isFocused = false
+                                        }
+                                    }
+                            }
+                            
+                        }
+                        .listStyle(.plain)
+                        .background(Color.clear)
                     }
                 }
+                .offset(y: isFocused ? -100 : 0)
                 
                 Spacer()
                 
                 // here we will ad the list
-                List {
-                    ForEach(vm.movies) { _ in
-                        MovieListCell()
-                            .onTapGesture(perform: vm.showDetailView)
+                if !isFocused {
+                    List {
+                        ForEach(vm.movies) { movie in
+                            MovieListCell(movie: movie)
+                                .onTapGesture(perform: vm.showDetailView)
+                        }
                     }
+                    .listStyle(.plain)
                 }
-                .listStyle(.plain)
             }
             .padding(32)
             
@@ -88,6 +119,10 @@ struct EntryView: View {
                 DetailView(isShowing: $vm.isShowingDetailView)
                     .zIndex(2)
                     .transition(.move(edge: .bottom))
+            }
+            
+            if vm.isLoading {
+                LoadingView()
             }
         }
     }
@@ -97,5 +132,15 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         EntryView()
             .preferredColorScheme(.light)
+    }
+}
+
+struct LoadingView: View {
+    var body: some View {
+        ZStack {
+            Color(.systemBackground)
+            ProgressView()
+                .progressViewStyle(.circular)
+        }
     }
 }

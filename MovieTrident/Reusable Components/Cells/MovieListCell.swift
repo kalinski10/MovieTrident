@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct MovieListCell: View {
+    let movie: MovieSearchImpl
     var body: some View {
         HStack {
-            Image("ThorPoster")
-                .resizable()
+            MovieRemoteImage(urlString: movie.poster)
                 .frame(width: 50, height: 50)
                 .scaledToFit()
             
-            Text("Thor Ragnarock" + " - " + "2017")
+            Text(movie.title + " - " + movie.year)
         }
     }
 }
 
-struct MovieListCell_Previews: PreviewProvider {
-    static var previews: some View {
-        MovieListCell()
-    }
-}
+//struct MovieListCell_Previews: PreviewProvider {
+//    static var previews: some View {
+//        MovieListCell(url: "")
+//    }
+//}

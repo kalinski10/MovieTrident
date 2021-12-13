@@ -17,6 +17,9 @@
 		122EAC2A2764BF9000E33D3A /* EntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC292764BF9000E33D3A /* EntryViewModel.swift */; };
 		122EAC2E27661C4200E33D3A /* CircularActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC2D27661C4200E33D3A /* CircularActionButton.swift */; };
 		122EAC32276622AB00E33D3A /* MovieListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC31276622AB00E33D3A /* MovieListCell.swift */; };
+		122EAC35276644A800E33D3A /* RemoteImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC34276644A800E33D3A /* RemoteImages.swift */; };
+		122EAC3927665DDF00E33D3A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC3827665DDF00E33D3A /* NetworkManager.swift */; };
+		122EAC3C27665E7000E33D3A /* CustomErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC3B27665E7000E33D3A /* CustomErrors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,9 @@
 		122EAC2B2764E7DF00E33D3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		122EAC2D27661C4200E33D3A /* CircularActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularActionButton.swift; sourceTree = "<group>"; };
 		122EAC31276622AB00E33D3A /* MovieListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListCell.swift; sourceTree = "<group>"; };
+		122EAC34276644A800E33D3A /* RemoteImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImages.swift; sourceTree = "<group>"; };
+		122EAC3827665DDF00E33D3A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		122EAC3B27665E7000E33D3A /* CustomErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,11 +70,11 @@
 		1218568027629B760068A206 /* MovieTrident */ = {
 			isa = PBXGroup;
 			children = (
+				122EAC3627665DC600E33D3A /* Utilities */,
 				122EAC2C27661C2C00E33D3A /* Reusable Components */,
 				122EAC2B2764E7DF00E33D3A /* Info.plist */,
 				122EAC242764BEC300E33D3A /* Model */,
 				122EAC232764BE8B00E33D3A /* Main */,
-				122EAC202764BD0800E33D3A /* Constants */,
 				122EAC1F2764BCF500E33D3A /* Screens */,
 				1218568527629B7B0068A206 /* Assets.xcassets */,
 				1218568727629B7B0068A206 /* Preview Content */,
@@ -129,6 +135,7 @@
 		122EAC2C27661C2C00E33D3A /* Reusable Components */ = {
 			isa = PBXGroup;
 			children = (
+				122EAC332766449C00E33D3A /* Images */,
 				122EAC302766229C00E33D3A /* Cells */,
 				122EAC2F2766229000E33D3A /* Buttons */,
 			);
@@ -149,6 +156,40 @@
 				122EAC31276622AB00E33D3A /* MovieListCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		122EAC332766449C00E33D3A /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				122EAC34276644A800E33D3A /* RemoteImages.swift */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		122EAC3627665DC600E33D3A /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				122EAC3A27665E6200E33D3A /* Errors */,
+				122EAC3727665DD400E33D3A /* Managers */,
+				122EAC202764BD0800E33D3A /* Constants */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		122EAC3727665DD400E33D3A /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				122EAC3827665DDF00E33D3A /* NetworkManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		122EAC3A27665E6200E33D3A /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				122EAC3B27665E7000E33D3A /* CustomErrors.swift */,
+			);
+			path = Errors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -221,13 +262,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				122EAC35276644A800E33D3A /* RemoteImages.swift in Sources */,
 				1218568427629B760068A206 /* EntryView.swift in Sources */,
+				122EAC3927665DDF00E33D3A /* NetworkManager.swift in Sources */,
 				122EAC222764BD2300E33D3A /* Brand.swift in Sources */,
 				122EAC32276622AB00E33D3A /* MovieListCell.swift in Sources */,
 				122EAC2E27661C4200E33D3A /* CircularActionButton.swift in Sources */,
 				122009472763F0A500C1E4F5 /* DetailView.swift in Sources */,
 				122EAC2A2764BF9000E33D3A /* EntryViewModel.swift in Sources */,
 				1218568227629B760068A206 /* MovieTridentApp.swift in Sources */,
+				122EAC3C27665E7000E33D3A /* CustomErrors.swift in Sources */,
 				122EAC262764BED600E33D3A /* Movie.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
