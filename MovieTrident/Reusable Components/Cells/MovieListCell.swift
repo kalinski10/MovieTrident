@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct MovieListCell: View {
+    
     let movie: MovieSearchImpl
+    let action: () -> Void
+    
     var body: some View {
         HStack {
             MovieRemoteImage(urlString: movie.poster)
@@ -17,6 +20,7 @@ struct MovieListCell: View {
             
             Text(movie.title + " - " + movie.year)
         }
+        .onTapGesture(perform: action)
     }
 }
 

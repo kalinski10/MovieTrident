@@ -20,11 +20,23 @@ struct CircularActionButton: View {
                 .scaledToFit()
                 .frame(width: 20, height: 20)
                 .padding()
-                .foregroundColor(isPrimary ? .white : Brand.Colour.primary)
-                .background(
-                    Circle()
-                        .foregroundColor(isPrimary ? Brand.Colour.primary : .white)
-                )
+                .foregroundColor(.white)
+                .background(getBackground())
+        }
+    }
+}
+
+private extension CircularActionButton {
+    @ViewBuilder
+    func getBackground() -> some View {
+        if isPrimary {
+            Circle()
+                .foregroundColor(Brand.Colour.primary)
+        } else {
+            Circle()
+                .foregroundColor(.clear)
+                .background(.ultraThinMaterial)
+                .clipShape(Circle())
         }
     }
 }

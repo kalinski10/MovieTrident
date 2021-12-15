@@ -7,58 +7,6 @@
 
 import Foundation
 
-// MARK: - Search
-
-protocol Search: Decodable {
-    associatedtype Result = MovieSearch
-    var result:       [Result] { get set }
-    var totalResults: String { get set }
-}
-
-struct SearchImpl: Search {
-    var result: [MovieSearchImpl]
-    var totalResults: String
-}
-
-extension SearchImpl {
-    enum CodingKeys: String, CodingKey {
-        case result = "Search"
-        case totalResults
-    }
-}
-
-// MARK: - MovieSeach
-
-protocol MovieSearch: Identifiable, Decodable {
-    var title:      String { get set }
-    var year:       String { get set }
-    var poster:     String { get set }
-    var imdbID:     String { get set }
-    var id:         String { get }
-}
-
-extension MovieSearch {
-    var id: String { imdbID }
-}
-
-struct MovieSearchImpl: MovieSearch {
-    var title:  String
-    var year:   String
-    var poster: String
-    var imdbID: String
-}
-
-extension MovieSearchImpl {
-    enum CodingKeys: String, CodingKey {
-        case title      = "Title"
-        case year       = "Year"
-        case poster     = "Poster"
-        case imdbID
-    }
-}
-
-// MARK: - MovieSeach
-
 protocol Movie: Identifiable, Decodable {
     var title:      String { get set }
     var year:       String { get set }
@@ -100,4 +48,23 @@ extension MovieImpl {
         case imdbRating
         case imdbID
     }
+}
+
+
+// MARK: - Mock
+
+extension MovieImpl {
+    enum Mock { }
+}
+
+extension MovieImpl.Mock {
+    static let data = MovieImpl(title: "Thor Ragnarock",
+                                year: "2017",
+                                runtime: "130",
+                                genre: "Action, Comedy, Adventure",
+                                director: "Taika Waititi",
+                                plot: "Imprisoned on the planet Sakaar, Thor must race against time to return to Asgard and stop Ragnarök, the destruction of his world, at the hands of the powerful and ruthless Hela.",
+                                poster: "",
+                                imdbRating: "7.9",
+                                imdbID: "1234")
 }

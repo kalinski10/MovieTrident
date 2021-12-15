@@ -10,6 +10,7 @@ import Combine
 
 protocol NetworkManagerOutput: AnyObject {
     func fetchMovies(movieSearches: [MovieSearchImpl])
+    func fetch(movie: MovieImpl)
     func error()
 }
 
@@ -46,12 +47,20 @@ final class NetworkManager {
     }
     
     
-    func getUrl(search: String) throws -> URL {
+    func getUrl(search: String, type: String, year: String) throws -> URL {
         let formattedSearch = search.lowercased().replacingOccurrences(of: #"\b "#,
                                                                      with: "+",
                                                                      options: .regularExpression,
                                                                      range: nil)
-        guard let url = URL(string: baseURl + "?s=" + formattedSearch + "&apikey=7b11e86d") else { throw MTError.invalidURL }
+        
+        guard let url = URL(string: baseURl + "?s=" + formattedSearch + "&type=\(type)" + "&y=\(year)" + "&apikey=7b11e86d")
+        else { throw MTError.invalidURL }
+        
+        return url
+    }
+    
+    func getUrl(id: String) throws -> URL {
+        guard let url = URL(string: baseURl + "?i=" + id + "&apikey=7b11e86d") else { throw MTError.invalidURL }
         
         return url
     }
@@ -80,6 +89,34 @@ final class NetworkManager {
             receiveValue: { [weak self] search in
                 print(search)
                 self?.delegate?.fetchMovies(movieSearches: search.result)
+            }
+            .store(in: &bag)
+    }
+    
+    func loadMovie(from url: URL) async throws {
+        
+        print(url)
+        
+        URLSession.shared.dataTaskPublisher(for: url)
+            .tryMap { data, response in
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200
+                else { throw MTError.invalidResponse }
+                
+                return data
+            }
+            .decode(type: MovieImpl.self, decoder: JSONDecoder())
+            .receive(on: RunLoop.main)
+            .sink { [weak self] response in
+                switch response {
+                case .finished:
+                    break
+                case .failure(_):
+                    self?.delegate?.error()
+                }
+            }
+            receiveValue: { [weak self] movie in
+                print(movie)
+                self?.delegate?.fetch(movie: movie)
             }
             .store(in: &bag)
     }

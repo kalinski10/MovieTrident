@@ -15,7 +15,9 @@ final class ImageLoader: ObservableObject {
     func load(from urlString: String) async {
         let poster = try? await NetworkManager.shared.downloadImages(from: urlString)
         if let poster = poster {
-            image =  Image(uiImage: poster)
+            DispatchQueue.main.async { [weak self] in
+                self?.image =  Image(uiImage: poster)
+            }
         }
     }
 }
