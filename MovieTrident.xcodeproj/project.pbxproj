@@ -20,6 +20,9 @@
 		122EAC35276644A800E33D3A /* RemoteImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC34276644A800E33D3A /* RemoteImages.swift */; };
 		122EAC3927665DDF00E33D3A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC3827665DDF00E33D3A /* NetworkManager.swift */; };
 		122EAC3C27665E7000E33D3A /* CustomErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122EAC3B27665E7000E33D3A /* CustomErrors.swift */; };
+		4CA3B56D276A8A2E006E9F2E /* PersistantManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA3B56C276A8A2E006E9F2E /* PersistantManager.swift */; };
+		4CA3B570276A8B15006E9F2E /* MovieTitle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4CA3B56E276A8B15006E9F2E /* MovieTitle.xcdatamodeld */; };
+		4CA3B574276A94DF006E9F2E /* QueryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CA3B573276A94DF006E9F2E /* QueryForm.swift */; };
 		4CC5D5B22767DBCD003854A5 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC5D5B12767DBCD003854A5 /* Search.swift */; };
 		4CC5D5B42767DC77003854A5 /* MovieSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC5D5B32767DC77003854A5 /* MovieSearch.swift */; };
 		4CC5D5B72767DF6B003854A5 /* ListEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC5D5B62767DF6B003854A5 /* ListEmptyState.swift */; };
@@ -39,12 +42,15 @@
 		122EAC212764BD2300E33D3A /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		122EAC252764BED600E33D3A /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		122EAC292764BF9000E33D3A /* EntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewModel.swift; sourceTree = "<group>"; };
-		122EAC2B2764E7DF00E33D3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		122EAC2B2764E7DF00E33D3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		122EAC2D27661C4200E33D3A /* CircularActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularActionButton.swift; sourceTree = "<group>"; };
 		122EAC31276622AB00E33D3A /* MovieListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListCell.swift; sourceTree = "<group>"; };
 		122EAC34276644A800E33D3A /* RemoteImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImages.swift; sourceTree = "<group>"; };
 		122EAC3827665DDF00E33D3A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		122EAC3B27665E7000E33D3A /* CustomErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomErrors.swift; sourceTree = "<group>"; };
+		4CA3B56C276A8A2E006E9F2E /* PersistantManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantManager.swift; sourceTree = "<group>"; };
+		4CA3B56F276A8B15006E9F2E /* MovieTitle.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieTitle.xcdatamodel; sourceTree = "<group>"; };
+		4CA3B573276A94DF006E9F2E /* QueryForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryForm.swift; sourceTree = "<group>"; };
 		4CC5D5B12767DBCD003854A5 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		4CC5D5B32767DC77003854A5 /* MovieSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearch.swift; sourceTree = "<group>"; };
 		4CC5D5B62767DF6B003854A5 /* ListEmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEmptyState.swift; sourceTree = "<group>"; };
@@ -84,13 +90,12 @@
 		1218568027629B760068A206 /* MovieTrident */ = {
 			isa = PBXGroup;
 			children = (
-				122EAC3627665DC600E33D3A /* Utilities */,
-				122EAC2C27661C2C00E33D3A /* Reusable Components */,
 				122EAC2B2764E7DF00E33D3A /* Info.plist */,
+				122EAC3627665DC600E33D3A /* Utilities */,
 				122EAC242764BEC300E33D3A /* Model */,
-				122EAC232764BE8B00E33D3A /* Main */,
+				122EAC2C27661C2C00E33D3A /* Reusable Components */,
 				122EAC1F2764BCF500E33D3A /* Screens */,
-				1218568527629B7B0068A206 /* Assets.xcassets */,
+				122EAC232764BE8B00E33D3A /* Supporting Files */,
 				1218568727629B7B0068A206 /* Preview Content */,
 			);
 			path = MovieTrident;
@@ -121,17 +126,19 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
-		122EAC232764BE8B00E33D3A /* Main */ = {
+		122EAC232764BE8B00E33D3A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1218568527629B7B0068A206 /* Assets.xcassets */,
 				1218568127629B760068A206 /* MovieTridentApp.swift */,
 			);
-			path = Main;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		122EAC242764BEC300E33D3A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4CA3B571276A8FD3006E9F2E /* CoreDataModel */,
 				122EAC252764BED600E33D3A /* Movie.swift */,
 				4CC5D5B12767DBCD003854A5 /* Search.swift */,
 				4CC5D5B32767DC77003854A5 /* MovieSearch.swift */,
@@ -151,6 +158,7 @@
 		122EAC2C27661C2C00E33D3A /* Reusable Components */ = {
 			isa = PBXGroup;
 			children = (
+				4CA3B572276A94C3006E9F2E /* Forms */,
 				4CC5D5C027680059003854A5 /* List */,
 				4CC5D5BD2767F2FB003854A5 /* Textfields */,
 				4CC5D5B82767EFEF003854A5 /* Loading State */,
@@ -200,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				122EAC3827665DDF00E33D3A /* NetworkManager.swift */,
+				4CA3B56C276A8A2E006E9F2E /* PersistantManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -210,6 +219,22 @@
 				122EAC3B27665E7000E33D3A /* CustomErrors.swift */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		4CA3B571276A8FD3006E9F2E /* CoreDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				4CA3B56E276A8B15006E9F2E /* MovieTitle.xcdatamodeld */,
+			);
+			path = CoreDataModel;
+			sourceTree = "<group>";
+		};
+		4CA3B572276A94C3006E9F2E /* Forms */ = {
+			isa = PBXGroup;
+			children = (
+				4CA3B573276A94DF006E9F2E /* QueryForm.swift */,
+			);
+			path = Forms;
 			sourceTree = "<group>";
 		};
 		4CC5D5B52767DF52003854A5 /* Empty States */ = {
@@ -324,6 +349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				122EAC35276644A800E33D3A /* RemoteImages.swift in Sources */,
+				4CA3B574276A94DF006E9F2E /* QueryForm.swift in Sources */,
 				1218568427629B760068A206 /* EntryView.swift in Sources */,
 				4CC5D5B42767DC77003854A5 /* MovieSearch.swift in Sources */,
 				122EAC3927665DDF00E33D3A /* NetworkManager.swift in Sources */,
@@ -338,7 +364,9 @@
 				122009472763F0A500C1E4F5 /* DetailView.swift in Sources */,
 				122EAC2A2764BF9000E33D3A /* EntryViewModel.swift in Sources */,
 				1218568227629B760068A206 /* MovieTridentApp.swift in Sources */,
+				4CA3B56D276A8A2E006E9F2E /* PersistantManager.swift in Sources */,
 				4CC5D5B22767DBCD003854A5 /* Search.swift in Sources */,
+				4CA3B570276A8B15006E9F2E /* MovieTitle.xcdatamodeld in Sources */,
 				122EAC3C27665E7000E33D3A /* CustomErrors.swift in Sources */,
 				122EAC262764BED600E33D3A /* Movie.swift in Sources */,
 			);
@@ -545,6 +573,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4CA3B56E276A8B15006E9F2E /* MovieTitle.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4CA3B56F276A8B15006E9F2E /* MovieTitle.xcdatamodel */,
+			);
+			currentVersion = 4CA3B56F276A8B15006E9F2E /* MovieTitle.xcdatamodel */;
+			path = MovieTitle.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1218567627629B760068A206 /* Project object */;
 }

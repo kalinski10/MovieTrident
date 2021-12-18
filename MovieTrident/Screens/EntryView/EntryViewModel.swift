@@ -17,7 +17,6 @@ final class EntryVieModel: ObservableObject {
     @Published var type:                String = ""
     @Published var year:                String = ""
     
-    @Published var recentSearches:      [String] = []
     @Published var movies:              [MovieSearchImpl] = []
     @Published var movie:               MovieImpl = .init(title: "Thor Ragnarock",
                                                           year: "2017",
@@ -51,13 +50,14 @@ final class EntryVieModel: ObservableObject {
     
     func searchMovies() async {
         isLoading = true
-        recentSearches.append(text)
+        
         do {
             let url = try session.getUrl(search: text, type: type, year: year)
             try await session.loadMovies(from: url)
         } catch {
             print(error)
         }
+        
         isShowingForm = false
     }
     

@@ -27,7 +27,7 @@ struct DetailView: View {
                     
                     HStack {
                         Spacer()
-                        CircularActionButton(imageName: "xmark", isPrimary: false, action: hideView)
+                        CircularActionButton(imageName: Brand.Icons.xmark, isPrimary: false, action: hideView)
                     }
                     
                     Spacer()
@@ -43,15 +43,15 @@ struct DetailView: View {
                         Divider()
 
                         HStack {
-                            Label(movie.imdbRating, systemImage: "star")
+                            Label(movie.imdbRating, systemImage: Brand.Icons.star)
                             
                             Spacer()
                             
-                            Label(movie.director, systemImage: "video")
+                            Label(movie.director, systemImage: Brand.Icons.video)
                             
                             Spacer()
                             
-                            Label(movie.runtime, systemImage: "timer")
+                            Label(movie.runtime, systemImage: Brand.Icons.timer)
                         }
                         
                         Text(movie.plot)

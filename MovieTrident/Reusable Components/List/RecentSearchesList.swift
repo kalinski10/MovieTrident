@@ -9,19 +9,21 @@ import SwiftUI
 
 struct RecentSearchesList: View {
     
-    let movies: [String]
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(entity: MovieTitle.entity(), sortDescriptors: []) var recentSearches: FetchedResults<MovieTitle>
     let action: (String) -> Void
     
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 8) {
-                ForEach(movies, id: \.self) { movie in
+                ForEach(recentSearches) { movie in
                     VStack {
                         Button {
-                            action(movie)
+                            print(movie.title ?? "couldn't find your ting")
+                            action(movie.title ?? "")
                         } label: {
                             HStack {
-                                Text(movie)
+                                Text(movie.title ?? "")
                                 Spacer()
                                 Image(systemName: "chevron.right")
                                     .padding(.horizontal, 32)

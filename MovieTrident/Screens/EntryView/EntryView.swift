@@ -9,6 +9,9 @@ import SwiftUI
 
 struct EntryView: View {
     
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(entity: MovieTitle.entity(), sortDescriptors: []) var recentSearches: FetchedResults<MovieTitle>
+    
     @StateObject private var vm = EntryVieModel()
     
     @FocusState private var isFocused: Bool
@@ -31,53 +34,10 @@ struct EntryView: View {
                     titleView
                         .padding([.horizontal, .top], 32)
                     
-                    VStack {
-                        HStack(spacing: 16) {
-                            MTTextfield(searchInput: $vm.text, isFocused: _isFocused) {
-                                Task {
-                                    await vm.searchMovies()
-                                }
-                            }
-                            
-                            CircularActionButton(imageName: shouldShowXmark ? "xmark" : "slider.horizontal.3",
-                                                 isPrimary: true,
-                                                 action: handleButtonInput)
-                            
-                        }
-                        .padding(.horizontal, 32)
-                        
-                        if shouldShowForm {
-                            List {
-                                Picker("Type", selection: $vm.type) {
-                                    ForEach(vm.movieTypes, id: \.self) {
-                                        Text($0)
-                                    }
-                                }
-                                
-                                Picker("Year", selection: $vm.year) {
-                                    ForEach(vm.years.reversed(), id: \.self) {
-                                        Text($0)
-                                    }
-                                }
-                                
-                            }
-                            .frame(height: 160)
-                            .transition(.slide)
-                        }
-                        
-                        if isFocused {
-                            RecentSearchesList(movies: vm.recentSearches) { title in
-                                recentSearchesInput(from: title)
-                            }
-                            .padding(.top, 8)
-                            .padding(.horizontal, 32)
-                        }
-                    }
-                    .offset(y: focusAnimation ? -100 : 0)
+                    entryField
                     
                     Spacer()
                     
-                    // here we will ad the list
                     if !isFocused {
                         SearchedMoviesList(movies: vm.movies) { movie in
                             Task {
@@ -91,8 +51,8 @@ struct EntryView: View {
                 
                 if vm.isShowingDetailView {
                     DetailView(movie: vm.movie, isShowing: $vm.isShowingDetailView)
-                        .zIndex(2)
                         .transition(.slide)
+                        .zIndex(2) // to stay on top of all the content when transitioning
                 }
                 
                 if vm.isLoading {
@@ -120,11 +80,50 @@ private extension EntryView {
         }
         .blur(radius: isFocused ? 20 : 0)
     }
+    
+    var entryField: some View {
+        VStack {
+            HStack(spacing: 16) {
+                MTTextfield(searchInput: $vm.text, isFocused: _isFocused) {
+                    saveSearch()
+                    Task {
+                        await vm.searchMovies()
+                    }
+                }
+                
+                CircularActionButton(imageName: shouldShowXmark ? Brand.Icons.xmark : Brand.Icons.settings,
+                                     isPrimary: true,
+                                     action: handleButtonInput)
+                
+            }
+            .padding(.horizontal, 32)
+            
+            if shouldShowForm {
+                QueryForm(vm: vm)
+                    .transition(.slide)
+            }
+            
+            if isFocused {
+                RecentSearchesList() { title in
+                    recentSearchesInput(from: title)
+                }
+                .padding(.top, 8)
+                .padding(.horizontal, 32)
+            }
+        }
+        .offset(y: focusAnimation ? -80 : 0)
+    }
 }
 
 // MARK: - Private Methods
 
 private extension EntryView {
+    
+    func saveSearch() {
+        let newSearch = MovieTitle(context: self.moc)
+        newSearch.id = UUID()
+        newSearch.title = vm.text
+    }
     
     func animateFocusState(_ state: Bool) {
         withAnimation {
