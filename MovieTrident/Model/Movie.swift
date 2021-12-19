@@ -1,10 +1,3 @@
-//
-//  Movie.swift
-//  MovieTrident
-//
-//  Created by kalin's personal on 11/12/2021.
-//
-
 import Foundation
 
 protocol Movie: Identifiable, Decodable {

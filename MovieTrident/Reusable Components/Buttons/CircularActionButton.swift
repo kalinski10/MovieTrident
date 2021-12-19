@@ -1,10 +1,3 @@
-//
-//  CircularActionButton.swift
-//  MovieTrident
-//
-//  Created by kalin's personal on 12/12/2021.
-//
-
 import SwiftUI
 
 struct CircularActionButton: View {

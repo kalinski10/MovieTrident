@@ -1,21 +1,23 @@
-//
-//  DetailView.swift
-//  MovieTrident
-//
-//  Created by kalin's personal on 10/12/2021.
-//
-
 import SwiftUI
 
 struct DetailView: View {
+    
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(entity: SavedMovie.entity(),
+                  sortDescriptors: [])
+    var savedMovies: FetchedResults<SavedMovie>
     
     let movie: MovieImpl
     @Binding var isShowing: Bool
     @State private var preferredColourScheme: ColorScheme = .light
     
+    private var isMovieSaved: Bool {
+        !savedMovies.filter { $0.imdbID == movie.imdbID }.isEmpty
+    }
+    
     var body: some View {
         ZStack {
-            
+
             MovieRemoteImage(urlString: movie.poster)
                 .frame(maxHeight: .infinity)
                 .frame(maxWidth: .infinity)
@@ -26,8 +28,11 @@ struct DetailView: View {
                 VStack {
                     
                     HStack {
+                        CircularActionButton(imageName: Brand.Icons.chevronLeft, isPrimary: false, action: hideView)
+                        
                         Spacer()
-                        CircularActionButton(imageName: Brand.Icons.xmark, isPrimary: false, action: hideView)
+                        
+                        CircularActionButton(imageName:isMovieSaved ? "bookmark.fill" : Brand.Icons.bookmark, isPrimary: false, action: saveMovie)
                     }
                     
                     Spacer()
@@ -76,6 +81,18 @@ struct DetailView: View {
 
 private extension DetailView {
     
+    func saveMovie() {
+        if isMovieSaved {
+            moc.delete(savedMovies.first(where: { $0.imdbID == movie.imdbID })!)
+            return
+        }
+        
+        let newFave = SavedMovie(context: self.moc)
+        newFave.imdbID = movie.imdbID
+        newFave.title = movie.title
+        newFave.posterUrl = movie.poster
+    }
+    
     func hideView() {
         withAnimation {
             isShowing = false
@@ -88,6 +105,7 @@ private extension DetailView {
                 self.preferredColourScheme = .dark
             }
         }
+        print(savedMovies)
     }
 }
 

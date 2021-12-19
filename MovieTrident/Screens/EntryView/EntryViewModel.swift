@@ -1,37 +1,48 @@
-//
-//  EntryViewModel.swift
-//  MovieTrident
-//
-//  Created by kalin's personal on 11/12/2021.
-//
-
 import SwiftUI
 
-final class EntryVieModel: ObservableObject {
+protocol EntryViewModel: ObservableObject {
     
-    @Published var isShowingForm:       Bool = false
-    @Published var isShowingDetailView: Bool = false
-    @Published var isLoading:           Bool = false
+    var isShowingForm: Bool { get set }
+    var isShowingDetailView: Bool { get set }
+    var isLoading: Bool { get set }
+    var focusAnimation: Bool  { get set}
+    var isShowingOnboarding: Bool { get set}
     
-    @Published var text:                String = ""
-    @Published var type:                String = ""
-    @Published var year:                String = ""
+    var text: String { get set }
+    var type: String { get set }
+    var year: String { get set }
     
-    @Published var movies:              [MovieSearchImpl] = []
-    @Published var movie:               MovieImpl = .init(title: "Thor Ragnarock",
-                                                          year: "2017",
-                                                          runtime: "130",
-                                                          genre: "Action, Comedy, Adventure",
-                                                          director: "Taika Waititi",
-                                                          plot: "Imprisoned on the planet Sakaar, Thor must race against time to return to Asgard and stop Ragnarök, the destruction of his world, at the hands of the powerful and ruthless Hela.",
-                                                          poster: "",
-                                                          imdbRating: "7.9",
-                                                          imdbID: "1234")
+    var movies: [MovieSearchImpl] { get set }
+    var movie: MovieImpl { get set }
+    
+    var session: NetworkManagerImpl { get }
+    
+    func showDetailView(with Id: String) async
+    func searchMovies() async
+    func generateDates()
+}
 
-    var movieTypes = ["movie", "series", "episode"]
-    var years: [String] = []
+final class EntryViewModelImpl: EntryViewModel {
     
-    private let session = NetworkManager.shared
+    @AppStorage("didShowOnboarding") var didShowOnboarding: Bool = false
+    
+    @Published var isShowingForm: Bool = false
+    @Published var isShowingDetailView: Bool = false
+    @Published var isLoading: Bool = false
+    @Published var focusAnimation: Bool = false
+    @Published var isShowingOnboarding: Bool = false
+    
+    @Published var text: String = ""
+    @Published var type: String = ""
+    @Published var year: String = ""
+    
+    @Published var movies: [MovieSearchImpl] = []
+    @Published var movie: MovieImpl = MovieImpl.Mock.data
+    
+    var session = NetworkManagerImpl()
+
+    let movieTypes = ["movie", "series", "episode"]
+    var years: [String] = []
     
     init() {
         session.delegate = self
@@ -40,6 +51,7 @@ final class EntryVieModel: ObservableObject {
     
     func showDetailView(with Id: String) async {
         isLoading = true
+        
         do {
             let url = try session.getUrl(id: Id)
             try await session.loadMovie(from: url)
@@ -49,6 +61,7 @@ final class EntryVieModel: ObservableObject {
     }
     
     func searchMovies() async {
+        
         isLoading = true
         
         do {
@@ -61,14 +74,32 @@ final class EntryVieModel: ObservableObject {
         isShowingForm = false
     }
     
-    private func generateDates() {
+    func animateFocusState(_ state: Bool) {
+        withAnimation {
+            focusAnimation = state
+        }
+    }
+    
+    func generateDates() {
         let y = Array(1900...2022)
         y.forEach { years.append(String($0))}
+    }
+    
+    func shouldShowOnboarding() {
+        if !didShowOnboarding {
+            isShowingOnboarding.toggle()
+        }
+    }
+    
+    func onboardingFinished() {
+        isShowingOnboarding.toggle()
+        didShowOnboarding = true
     }
 }
 
 //MARK: - NetworkManagerOutput
-extension EntryVieModel: NetworkManagerOutput {
+
+extension EntryViewModelImpl: NetworkManagerOutput {
     func fetch(movie: MovieImpl) {
         self.movie = movie
         

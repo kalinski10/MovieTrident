@@ -1,27 +1,21 @@
-//
-//  ListEmptyState.swift
-//  MovieTrident
-//
-//  Created by Kalin Balabanov on 13/12/2021.
-//
-
 import SwiftUI
 
 struct ListEmptyState: View {
     var body: some View {
-        VStack {
-            Spacer()
+        Group {
             Image(systemName: "list.and.film")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200, height: 200)
+                .accessibilityHidden(true)
             
-            Text("You haven't searched for any movies just yet")
+            Text("You haven't saved any movies just yet.")
                 .bold()
                 .font(.largeTitle)
+                .padding(.bottom, 32)
         }
         .foregroundColor(Brand.Colour.primary)
-        .padding(32)
+        .padding(.horizontal, 32)
     }
 }
 

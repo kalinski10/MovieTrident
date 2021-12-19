@@ -1,10 +1,3 @@
-//
-//  MovieSearch.swift
-//  MovieTrident
-//
-//  Created by Kalin Balabanov on 13/12/2021.
-//
-
 import Foundation
 
 protocol MovieSearch: Identifiable, Decodable {

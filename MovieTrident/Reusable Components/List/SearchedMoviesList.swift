@@ -1,10 +1,3 @@
-//
-//  SearchedMoviesList.swift
-//  MovieTrident
-//
-//  Created by Kalin Balabanov on 13/12/2021.
-//
-
 import SwiftUI
 
 struct SearchedMoviesList: View {
@@ -21,11 +14,12 @@ struct SearchedMoviesList: View {
             }
         }
         .listStyle(.plain)
+        .padding(.horizontal, 32)
     }
 }
 
-//struct SearchedMoviesList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SearchedMoviesList()
-//    }
-//}
+struct SearchedMoviesList_Previews: PreviewProvider {
+    static var previews: some View {
+        SearchedMoviesList(movies: MovieSearchImpl.Mock.dataSet) { _ in }
+    }
+}

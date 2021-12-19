@@ -1,15 +1,8 @@
-//
-//  Search.swift
-//  MovieTrident
-//
-//  Created by Kalin Balabanov on 13/12/2021.
-//
-
 import Foundation
 
 protocol Search: Decodable {
     associatedtype Result = MovieSearch
-    var result:       [Result] { get set }
+    var result: [Result] { get set }
     var totalResults: String { get set }
 }
 

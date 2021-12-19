@@ -1,10 +1,3 @@
-//
-//  LoadingView.swift
-//  MovieTrident
-//
-//  Created by Kalin Balabanov on 13/12/2021.
-//
-
 import SwiftUI
 
 struct LoadingView: View {

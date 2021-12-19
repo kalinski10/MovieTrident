@@ -1,68 +1,74 @@
-//
-//  ContentView.swift
-//  MovieTrident
-//
-//  Created by kalin's personal on 09/12/2021.
-//
-
 import SwiftUI
 
 struct EntryView: View {
     
     @Environment(\.managedObjectContext) var moc
-    @FetchRequest(entity: MovieTitle.entity(), sortDescriptors: []) var recentSearches: FetchedResults<MovieTitle>
+    @FetchRequest(entity: MovieTitle.entity(),
+                  sortDescriptors: [])
+    var recentSearches: FetchedResults<MovieTitle>
+    @FetchRequest(entity: SavedMovie.entity(),
+                  sortDescriptors: [])
+    var savedMovies: FetchedResults<SavedMovie>
     
-    @StateObject private var vm = EntryVieModel()
-    
+    @StateObject private var vm = EntryViewModelImpl()
     @FocusState private var isFocused: Bool
-    @State private var focusAnimation: Bool = false
     
     private var shouldShowForm: Bool { !isFocused && vm.isShowingForm }
-    private var shouldShowEmptyState: Bool { vm.movies.isEmpty && !isFocused && !shouldShowForm }
+    private var shouldShowEmptyState: Bool { vm.movies.isEmpty && !isFocused && !shouldShowForm && savedMovies.isEmpty}
     private var shouldShowXmark: Bool { isFocused || vm.movies.count != 0 || !vm.text.isEmpty }
+    private var shouldShowSearchedList: Bool { !isFocused && !vm.movies.isEmpty }
+    private var shouldShowSavedList: Bool { !savedMovies.isEmpty && vm.movies.isEmpty && !isFocused }
     
     var body: some View {
+        
         NavigationView {
+            
             ZStack {
-                
-                if shouldShowEmptyState {
-                    ListEmptyState()
-                }
                 
                 VStack {
                     
                     titleView
-                        .padding([.horizontal, .top], 32)
                     
                     entryField
                     
-                    Spacer()
-                    
-                    if !isFocused {
+                    if shouldShowSearchedList {
                         SearchedMoviesList(movies: vm.movies) { movie in
                             Task {
                                 await vm.showDetailView(with: movie.imdbID)
                             }
                         }
-                        .padding(.horizontal, 32)
+                    }
+                    
+                    if shouldShowSavedList { savedList }
+                    
+                    if shouldShowEmptyState {
+                        Spacer()
+                        ListEmptyState()
                     }
                 }
                 
                 
                 if vm.isShowingDetailView {
                     DetailView(movie: vm.movie, isShowing: $vm.isShowingDetailView)
-                        .transition(.slide)
+                        .transition(.move(edge: .bottom))
                         .zIndex(2) // to stay on top of all the content when transitioning
                 }
                 
-                if vm.isLoading {
-                    LoadingView()
-                }
+                if vm.isLoading { LoadingView() }
+                
             }
             .navigationBarHidden(true)
         }
         .accentColor(Brand.Colour.primary)
-        .onChange(of: isFocused, perform: animateFocusState)
+        .onAppear(perform: vm.shouldShowOnboarding)
+        .onChange(of: isFocused, perform: vm.animateFocusState)
+        .sheet(isPresented: $vm.isShowingOnboarding, onDismiss: vm.onboardingFinished) {
+            if !vm.didShowOnboarding {
+                OnboardingView() {
+                    vm.isShowingOnboarding = false
+                }
+            }
+        }
     }
 }
 
@@ -79,13 +85,17 @@ private extension EntryView {
             Spacer()
         }
         .blur(radius: isFocused ? 20 : 0)
+        .padding([.horizontal, .top], 32)
     }
     
     var entryField: some View {
         VStack {
             HStack(spacing: 16) {
                 MTTextfield(searchInput: $vm.text, isFocused: _isFocused) {
+                    guard !vm.text.isEmpty else { return }
+                    
                     saveSearch()
+                    
                     Task {
                         await vm.searchMovies()
                     }
@@ -101,6 +111,7 @@ private extension EntryView {
             if shouldShowForm {
                 QueryForm(vm: vm)
                     .transition(.slide)
+                Spacer()
             }
             
             if isFocused {
@@ -111,7 +122,30 @@ private extension EntryView {
                 .padding(.horizontal, 32)
             }
         }
-        .offset(y: focusAnimation ? -80 : 0)
+        .offset(y: vm.focusAnimation ? -80 : 0)
+    }
+    
+    var savedList: some View {
+        GeometryReader { geo in
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack {
+                    ForEach(savedMovies) { movie in
+                        if let url = movie.posterUrl {
+                            MovieRemoteImage(urlString: url, cornerRadius: 16)
+                                .scaledToFit()
+                                .frame(height: geo.size.height*0.8)
+                                .padding([.leading, .vertical], 32)
+                                .cornerRadius(20)
+                                .onTapGesture {
+                                    Task {
+                                        await vm.showDetailView(with: movie.imdbID ?? "")
+                                    }
+                                }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -125,18 +159,10 @@ private extension EntryView {
         newSearch.title = vm.text
     }
     
-    func animateFocusState(_ state: Bool) {
-        withAnimation {
-            focusAnimation.toggle()
-        }
-    }
-    
     func recentSearchesInput(from title: String) {
         vm.text = title
         
-        Task {
-            await vm.searchMovies()
-        }
+        Task { await vm.searchMovies() }
         
         isFocused = false
     }

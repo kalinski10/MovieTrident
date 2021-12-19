@@ -1,10 +1,3 @@
-//
-//  RecentSearchesList.swift
-//  MovieTrident
-//
-//  Created by Kalin Balabanov on 13/12/2021.
-//
-
 import SwiftUI
 
 struct RecentSearchesList: View {
@@ -19,13 +12,12 @@ struct RecentSearchesList: View {
                 ForEach(recentSearches) { movie in
                     VStack {
                         Button {
-                            print(movie.title ?? "couldn't find your ting")
                             action(movie.title ?? "")
                         } label: {
                             HStack {
                                 Text(movie.title ?? "")
                                 Spacer()
-                                Image(systemName: "chevron.right")
+                                Image(systemName: Brand.Icons.chevronRight)
                                     .padding(.horizontal, 32)
                             }
                         }
@@ -39,8 +31,8 @@ struct RecentSearchesList: View {
     }
 }
 
-//struct RecentSearchesList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RecentSearchesList() { }
-//    }
-//}
+struct RecentSearchesList_Previews: PreviewProvider {
+    static var previews: some View {
+        RecentSearchesList() { _ in }
+    }
+}

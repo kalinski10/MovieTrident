@@ -1,18 +1,12 @@
-//
-//  QueryForm.swift
-//  MovieTrident
-//
-//  Created by Kalin Balabanov on 15/12/2021.
-//
-
 import SwiftUI
 
 struct QueryForm: View {
     
-    @ObservedObject var vm: EntryVieModel
+    @ObservedObject var vm: EntryViewModelImpl
     
     var body: some View {
         List {
+            
             Picker("Type", selection: $vm.type) {
                 ForEach(vm.movieTypes, id: \.self) {
                     Text($0)
@@ -24,14 +18,18 @@ struct QueryForm: View {
                     Text($0)
                 }
             }
-            
+            Button("Reset Filters") {
+                vm.year.removeAll()
+                vm.type.removeAll()
+            }
+            .foregroundColor(Color(.systemRed))
         }
-        .frame(height: 160)
+        .frame(height: 200)
     }
 }
 
 struct QueryForm_Previews: PreviewProvider {
     static var previews: some View {
-        QueryForm(vm: EntryVieModel())
+        QueryForm(vm: EntryViewModelImpl())
     }
 }

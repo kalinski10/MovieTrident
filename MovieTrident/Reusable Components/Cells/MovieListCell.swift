@@ -1,10 +1,3 @@
-//
-//  MovieListCell.swift
-//  MovieTrident
-//
-//  Created by kalin's personal on 12/12/2021.
-//
-
 import SwiftUI
 
 struct MovieListCell: View {
@@ -15,17 +8,19 @@ struct MovieListCell: View {
     var body: some View {
         HStack {
             MovieRemoteImage(urlString: movie.poster)
-                .frame(width: 50, height: 50)
                 .scaledToFit()
+                .frame(width: 50, height: 50)
             
             Text(movie.title + " - " + movie.year)
+            Spacer()
+            Image(systemName: Brand.Icons.chevronRight)
         }
         .onTapGesture(perform: action)
     }
 }
 
-//struct MovieListCell_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MovieListCell(url: "")
-//    }
-//}
+struct MovieListCell_Previews: PreviewProvider {
+    static var previews: some View {
+        MovieListCell(movie: MovieSearchImpl.Mock.dataSet[0]) { }
+    }
+}

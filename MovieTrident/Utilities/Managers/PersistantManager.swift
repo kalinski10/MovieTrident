@@ -1,10 +1,3 @@
-//
-//  PersistantManager.swift
-//  MovieTrident
-//
-//  Created by Kalin Balabanov on 15/12/2021.
-//
-
 import SwiftUI
 import CoreData
 
