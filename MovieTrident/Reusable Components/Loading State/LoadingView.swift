@@ -4,6 +4,7 @@ struct LoadingView: View {
     var body: some View {
         ZStack {
             Color(.systemBackground)
+            
             ProgressView()
                 .progressViewStyle(.circular)
                 .scaleEffect(2)

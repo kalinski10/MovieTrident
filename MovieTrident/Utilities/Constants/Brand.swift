@@ -31,4 +31,6 @@ extension Brand.Icons {
     static let video = "video"
     static let timer = "timer"
     static let magnifyingglass = "magnifyingglass"
+    static let emptyState = "list.and.film"
+    static let placeholder = "movie-icon"
 }

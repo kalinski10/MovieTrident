@@ -44,6 +44,6 @@ struct RemoteImage: View {
     let image: Image?
     
     var body: some View {
-        image?.resizable() ?? Image(decorative: "movie-icon").resizable()
+        image?.resizable() ?? Image(decorative: Brand.Icons.placeholder).resizable()
     }
 }

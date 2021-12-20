@@ -20,6 +20,7 @@ struct CircularActionButton: View {
 }
 
 private extension CircularActionButton {
+    
     @ViewBuilder
     func getBackground() -> some View {
         if isPrimary {

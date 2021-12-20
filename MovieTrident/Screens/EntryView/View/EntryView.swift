@@ -2,7 +2,9 @@ import SwiftUI
 
 struct EntryView: View {
     
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     @Environment(\.managedObjectContext) var moc
+    
     @FetchRequest(entity: MovieTitle.entity(),
                   sortDescriptors: [])
     var recentSearches: FetchedResults<MovieTitle>
@@ -20,11 +22,33 @@ struct EntryView: View {
     private var shouldShowSavedList: Bool { !savedMovies.isEmpty && vm.movies.isEmpty && !isFocused }
     
     var body: some View {
-        
-        NavigationView {
-            
-            ZStack {
+        ZStack {
+            if verticalSizeClass == .compact {
+                HStack {
+                    VStack {
+                        titleView
+                        
+                        entryField
+                        
+                        Spacer()
+                        
+                        if shouldShowSearchedList {
+                            SearchedMoviesList(movies: vm.movies, action: vm.showDetailView(with: ))
+                        }
+                    }
+                    
+                    if shouldShowSavedList {
+                        savedList
+                    }
+                    
+                    if shouldShowEmptyState {
+                        ListEmptyState()
+                    }
+                }
+                .blur(radius:  vm.isShowingDetailView ? 20 : 0)
+                .disabled(vm.isShowingDetailView ? true : false)
                 
+            } else {
                 VStack {
                     
                     titleView
@@ -32,11 +56,7 @@ struct EntryView: View {
                     entryField
                     
                     if shouldShowSearchedList {
-                        SearchedMoviesList(movies: vm.movies) { movie in
-                            Task {
-                                await vm.showDetailView(with: movie.imdbID)
-                            }
-                        }
+                        SearchedMoviesList(movies: vm.movies, action: vm.showDetailView(with: ))
                     }
                     
                     if shouldShowSavedList { savedList }
@@ -46,29 +66,30 @@ struct EntryView: View {
                         ListEmptyState()
                     }
                 }
-                
-                
-                if vm.isShowingDetailView {
-                    DetailView(movie: vm.movie, isShowing: $vm.isShowingDetailView)
-                        .transition(.move(edge: .bottom))
-                        .zIndex(2) // to stay on top of all the content when transitioning
-                }
-                
-                if vm.isLoading { LoadingView() }
-                
+                .blur(radius: vm.isShowingDetailView ? 20 : 0)
+                .disabled(vm.isShowingDetailView ? true : false)
             }
-            .navigationBarHidden(true)
+            
+            if vm.isShowingDetailView {
+                DetailView(movie: vm.movie, isShowing: $vm.isShowingDetailView)
+                    .transition(.move(edge: .bottom))
+                    .zIndex(2) // to stay on top of all the content when transitioning
+            }
+            
+            if vm.isLoading {
+                LoadingView()
+            }
+            
         }
         .accentColor(Brand.Colour.primary)
         .onAppear(perform: vm.shouldShowOnboarding)
         .onChange(of: isFocused, perform: vm.animateFocusState)
         .sheet(isPresented: $vm.isShowingOnboarding, onDismiss: vm.onboardingFinished) {
-            if !vm.didShowOnboarding {
-                OnboardingView() {
-                    vm.isShowingOnboarding = false
-                }
+            OnboardingView() {
+                vm.isShowingOnboarding = false
             }
         }
+        
     }
 }
 
@@ -95,10 +116,7 @@ private extension EntryView {
                     guard !vm.text.isEmpty else { return }
                     
                     saveSearch()
-                    
-                    Task {
-                        await vm.searchMovies()
-                    }
+                    vm.searchMovies()
                 }
                 
                 CircularActionButton(imageName: shouldShowXmark ? Brand.Icons.xmark : Brand.Icons.settings,
@@ -110,7 +128,7 @@ private extension EntryView {
             
             if shouldShowForm {
                 QueryForm(vm: vm)
-                    .transition(.slide)
+                    .transition(.move(edge: .leading))
                 Spacer()
             }
             
@@ -137,9 +155,7 @@ private extension EntryView {
                                 .padding([.leading, .vertical], 32)
                                 .cornerRadius(20)
                                 .onTapGesture {
-                                    Task {
-                                        await vm.showDetailView(with: movie.imdbID ?? "")
-                                    }
+                                    vm.showDetailView(with: movie.imdbID ?? "")
                                 }
                         }
                     }
@@ -162,7 +178,7 @@ private extension EntryView {
     func recentSearchesInput(from title: String) {
         vm.text = title
         
-        Task { await vm.searchMovies() }
+        vm.searchMovies()
         
         isFocused = false
     }

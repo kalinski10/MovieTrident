@@ -6,16 +6,19 @@ struct MovieListCell: View {
     let action: () -> Void
     
     var body: some View {
-        HStack {
-            MovieRemoteImage(urlString: movie.poster)
-                .scaledToFit()
-                .frame(width: 50, height: 50)
-            
-            Text(movie.title + " - " + movie.year)
-            Spacer()
-            Image(systemName: Brand.Icons.chevronRight)
+        Button(action: action) {
+            HStack {
+                MovieRemoteImage(urlString: movie.poster)
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
+                
+                Text(movie.title + " - " + movie.year)
+                
+                Spacer()
+                
+                Image(systemName: Brand.Icons.chevronRight)
+            }
         }
-        .onTapGesture(perform: action)
     }
 }
 

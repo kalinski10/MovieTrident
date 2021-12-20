@@ -1,27 +1,5 @@
 import SwiftUI
 
-protocol EntryViewModel: ObservableObject {
-    
-    var isShowingForm: Bool { get set }
-    var isShowingDetailView: Bool { get set }
-    var isLoading: Bool { get set }
-    var focusAnimation: Bool  { get set}
-    var isShowingOnboarding: Bool { get set}
-    
-    var text: String { get set }
-    var type: String { get set }
-    var year: String { get set }
-    
-    var movies: [MovieSearchImpl] { get set }
-    var movie: MovieImpl { get set }
-    
-    var session: NetworkManagerImpl { get }
-    
-    func showDetailView(with Id: String) async
-    func searchMovies() async
-    func generateDates()
-}
-
 final class EntryViewModelImpl: EntryViewModel {
     
     @AppStorage("didShowOnboarding") var didShowOnboarding: Bool = false
@@ -49,24 +27,24 @@ final class EntryViewModelImpl: EntryViewModel {
         generateDates()
     }
     
-    func showDetailView(with Id: String) async {
+    func showDetailView(with Id: String) {
         isLoading = true
         
         do {
             let url = try session.getUrl(id: Id)
-            try await session.loadMovie(from: url)
+            try session.loadMovie(from: url)
         } catch {
             print(error)
         }
     }
     
-    func searchMovies() async {
+    func searchMovies() {
         
         isLoading = true
         
         do {
             let url = try session.getUrl(search: text, type: type, year: year)
-            try await session.loadMovies(from: url)
+            try session.loadMovies(from: url)
         } catch {
             print(error)
         }
@@ -87,12 +65,12 @@ final class EntryViewModelImpl: EntryViewModel {
     
     func shouldShowOnboarding() {
         if !didShowOnboarding {
-            isShowingOnboarding.toggle()
+            isShowingOnboarding = true
         }
     }
     
     func onboardingFinished() {
-        isShowingOnboarding.toggle()
+        isShowingOnboarding = false
         didShowOnboarding = true
     }
 }

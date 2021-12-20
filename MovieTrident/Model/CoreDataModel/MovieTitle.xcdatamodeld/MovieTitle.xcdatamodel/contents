@@ -7,10 +7,9 @@
     <entity name="SavedMovie" representedClassName="SavedMovie" syncable="YES" codeGenerationType="class">
         <attribute name="imdbID" optional="YES" attributeType="String"/>
         <attribute name="posterUrl" optional="YES" attributeType="String"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <elements>
         <element name="MovieTitle" positionX="-63" positionY="-18" width="128" height="59"/>
-        <element name="SavedMovie" positionX="-54" positionY="9" width="128" height="74"/>
+        <element name="SavedMovie" positionX="-54" positionY="9" width="128" height="59"/>
     </elements>
 </model>

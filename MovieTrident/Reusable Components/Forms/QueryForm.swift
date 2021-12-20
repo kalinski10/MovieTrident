@@ -5,26 +5,46 @@ struct QueryForm: View {
     @ObservedObject var vm: EntryViewModelImpl
     
     var body: some View {
-        List {
+        VStack(alignment: .leading, spacing: 8) {
+            LazyHStack {
+                ForEach(vm.movieTypes, id: \.self) { type in
+                    Button(type) {
+                        vm.type = type
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(vm.type == type ? Brand.Colour.primary : .white)
+                }
+            }
+            .frame(maxHeight: .infinity)
             
-            Picker("Type", selection: $vm.type) {
-                ForEach(vm.movieTypes, id: \.self) {
-                    Text($0)
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack {
+                    ForEach(vm.years.reversed(), id: \.self) { year in
+                        Button(year) {
+                            vm.year = year
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(vm.year == year ? Brand.Colour.primary : .white)
+                    }
                 }
             }
             
-            Picker("Year", selection: $vm.year) {
-                ForEach(vm.years.reversed(), id: \.self) {
-                    Text($0)
+            HStack {
+                Spacer()
+                Button("Reset Filters") {
+                    vm.year.removeAll()
+                    vm.type.removeAll()
                 }
+                .buttonStyle(.bordered)
+                .tint(Color(.systemRed))
             }
-            Button("Reset Filters") {
-                vm.year.removeAll()
-                vm.type.removeAll()
-            }
-            .foregroundColor(Color(.systemRed))
+            
         }
-        .frame(height: 200)
+        .padding()
+        .background(Color(.systemGray3))
+        .cornerRadius(16)
+        .frame(maxHeight: 150)
+        .padding(.horizontal, 32)
     }
 }
 

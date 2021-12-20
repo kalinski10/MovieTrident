@@ -12,6 +12,8 @@ extension MovieSearch {
     var id: String { imdbID }
 }
 
+// MARK: - Implemetation
+
 struct MovieSearchImpl: MovieSearch {
     var title:  String
     var year:   String

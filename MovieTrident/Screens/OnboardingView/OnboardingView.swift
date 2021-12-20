@@ -1,6 +1,5 @@
 import SwiftUI
 
-
 struct OnboardingView: View {
     
     private let vm = OnboardingViewModel()
@@ -32,9 +31,9 @@ struct OnboardingView: View {
                     .frame(height: 50)
                     .background(Brand.Colour.primary)
                     .cornerRadius(8)
-                    .padding(32)
-                    .padding(.bottom, 32)
             }
+            .padding(32)
+            .padding(.bottom, 32)
         }
     }
 }

@@ -3,13 +3,13 @@ import SwiftUI
 struct SearchedMoviesList: View {
     
     let movies: [MovieSearchImpl]
-    let action: (MovieSearchImpl) -> Void
+    let action: (String) -> Void
     
     var body: some View {
         List {
             ForEach(movies) { movie in
                 MovieListCell(movie: movie) {
-                    action(movie)
+                    action(movie.imdbID)
                 }
             }
         }

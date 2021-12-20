@@ -7,19 +7,6 @@ protocol NetworkManagerOutput: AnyObject {
     func error()
 }
 
-protocol NetworkManager {
-    
-    var delegate: NetworkManagerOutput? { get set }
-    var bag: Set<AnyCancellable> { get set }
-    var cache: NSCache<NSString, UIImage> { get }
-    
-    func downloadImages(from urlString: String) async throws -> UIImage?
-    func getUrl(search: String, type: String, year: String) throws -> URL
-    func getUrl(id: String) throws -> URL
-    func loadMovies(from url: URL) async throws
-    func loadMovie(from url: URL) async throws
-}
-
 final class NetworkManagerImpl: NetworkManager {
     
     weak var delegate: NetworkManagerOutput?
@@ -27,6 +14,7 @@ final class NetworkManagerImpl: NetworkManager {
     var bag = Set<AnyCancellable>()
     var cache = NSCache<NSString, UIImage>()
         
+    
     func downloadImages(from urlString: String) async throws -> UIImage? {
         
         let cacheKey = NSString(string: urlString)
@@ -48,6 +36,7 @@ final class NetworkManagerImpl: NetworkManager {
     
     
     func getUrl(search: String, type: String, year: String) throws -> URL {
+        
         let formattedSearch = search
                                 .lowercased()
                                 .replacingOccurrences(of: #"\b "#,
@@ -61,23 +50,30 @@ final class NetworkManagerImpl: NetworkManager {
                                     "&type=\(type)" +
                                     "&y=\(year)" +
                                     "&apikey=7b11e86d")
+                
         else { throw MTError.invalidURL }
         
         return url
     }
     
+    
     func getUrl(id: String) throws -> URL {
+        
         guard let url = URL(string: Base.url +
                             "?i=" + id +
                             "&apikey=7b11e86d")
+                
         else { throw MTError.invalidURL }
         
         return url
     }
     
-    func loadMovies(from url: URL) async throws {
+    
+    func loadMovies(from url: URL) throws {
         
-        print(url)
+        /*instead of using combine I could have just used async but I wanted to showcase
+         ability to use combine and also a good oportunity to create a protocol/delegate
+         relationship*/
         
         URLSession.shared.dataTaskPublisher(for: url)
             .tryMap { data, response in
@@ -103,12 +99,16 @@ final class NetworkManagerImpl: NetworkManager {
             .store(in: &bag)
     }
     
-    func loadMovie(from url: URL) async throws {
-        
-        print(url)
+
+    func loadMovie(from url: URL) throws {
+
+        /*instead of using combine I could have just used async but I wanted to showcase
+         ability to use combine and also a good oportunity to create a protocol/delegate
+         relationship*/
         
         URLSession.shared.dataTaskPublisher(for: url)
             .tryMap { data, response in
+                
                 guard let response = response as? HTTPURLResponse, response.statusCode == 200
                 else { throw MTError.invalidResponse }
                 

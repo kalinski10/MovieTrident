@@ -6,6 +6,8 @@ protocol Search: Decodable {
     var totalResults: String { get set }
 }
 
+// MARK: - Implemetation
+
 struct SearchImpl: Search {
     var result: [MovieSearchImpl]
     var totalResults: String
