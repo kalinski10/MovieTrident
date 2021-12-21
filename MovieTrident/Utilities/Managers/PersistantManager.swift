@@ -35,7 +35,7 @@ struct PersistenceManager {
 
         container.loadPersistentStores { description, error in
             if let error = error {
-                fatalError("Error: \(error.localizedDescription)")
+                print(error)
             }
         }
     }

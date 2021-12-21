@@ -68,8 +68,8 @@ private extension DetailView {
                 
                 if preferredColourScheme == .dark {
                     cardview
-                        .offset(x: -80, y: 0)
-                        .frame(width: geo.size.width*0.3)
+                        .offset(x: -40, y: 0)
+                        .frame(width: geo.size.width*0.5)
                 }
                 Spacer()
             }
@@ -130,7 +130,7 @@ private extension DetailView {
             CircularActionButton(imageName: Brand.Icons.chevronLeft, isPrimary: false, action: hideView)
             CircularActionButton(imageName:isMovieSaved ? "bookmark.fill" : Brand.Icons.bookmark, isPrimary: false, action: saveMovie)
         }
-        .padding(32)
+        .padding()
     }
 }
 
