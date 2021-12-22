@@ -10,6 +10,7 @@ struct LoadingView: View {
                 .scaleEffect(2)
                 .tint(Brand.Colour.primary)
         }
+        .ignoresSafeArea()
     }
 }
 
